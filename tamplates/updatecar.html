@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Mobil - Car Management{% endblock %}
+
+{% block content %}
+<div class="card p-4">
+    <div class="card-header mb-4">
+        <h2 class="mb-0"><i class="fas fa-edit"></i> Edit Data Mobil</h2>
+        <small class="text-muted">ID Mobil: <strong>{{ car.id }}</strong></small>
+    </div>
+
+    <form method="POST" novalidate>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="brand" class="form-label"><strong>Brand</strong></label>
+                <input type="text" class="form-control" id="brand" name="brand" 
+                       value="{{ car.brand }}" placeholder="contoh: Toyota, Honda" required>
+                <small class="text-muted">Merek mobil</small>
+            </div>
+            <div class="col-md-6">
+                <label for="model" class="form-label"><strong>Model</strong></label>
+                <input type="text" class="form-control" id="model" name="model" 
+                       value="{{ car.model }}" placeholder="contoh: Avanza, Civic" required>
+                <small class="text-muted">Model mobil</small>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="year" class="form-label"><strong>Tahun Produksi</strong></label>
+                <input type="number" class="form-control" id="year" name="year" 
+                       value="{{ car.year }}" min="1900" max="2099" required>
+                <small class="text-muted">Tahun produksi</small>
+            </div>
+            <div class="col-md-4">
+                <label for="color" class="form-label"><strong>Warna</strong></label>
+                <select class="form-select" id="color" name="color" required>
+                    <option value="Merah" {% if car.color == 'Merah' %}selected{% endif %}>Merah</option>
+                    <option value="Biru" {% if car.color == 'Biru' %}selected{% endif %}>Biru</option>
+                    <option value="Hitam" {% if car.color == 'Hitam' %}selected{% endif %}>Hitam</option>
+                    <option value="Putih" {% if car.color == 'Putih' %}selected{% endif %}>Putih</option>
+                    <option value="Perak" {% if car.color == 'Perak' %}selected{% endif %}>Perak</option>
+                    <option value="Abu-abu" {% if car.color == 'Abu-abu' %}selected{% endif %}>Abu-abu</option>
+                    <option value="Hijau" {% if car.color == 'Hijau' %}selected{% endif %}>Hijau</option>
+                    <option value="Kuning" {% if car.color == 'Kuning' %}selected{% endif %}>Kuning</option>
+                    <option value="Orange" {% if car.color == 'Orange' %}selected{% endif %}>Orange</option>
+                    <option value="Coklat" {% if car.color == 'Coklat' %}selected{% endif %}>Coklat</option>
+                </select>
+                <small class="text-muted">Warna mobil</small>
+            </div>
+            <div class="col-md-4">
+                <label for="price" class="form-label"><strong>Harga (Rp)</strong></label>
+                <input type="number" class="form-control" id="price" name="price" 
+                       value="{{ car.price }}" step="0.01" min="0" required>
+                <small class="text-muted">Harga dalam Rupiah</small>
+            </div>
+        </div>
+
+        <div class="alert alert-info" role="alert">
+            <i class="fas fa-info-circle"></i> 
+            <strong>UPDATE FUNCTION:</strong> Form ini menunjukkan implementasi fungsi UPDATE (bagian dari CRUDS) 
+            yang merupakan salah satu requirement dari PBL0301.
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-warning">
+                <i class="fas fa-save"></i> Perbarui Data
+            </button>
+            <a href="{{ url_for('readcar', car_id=car.id) }}" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Batal
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

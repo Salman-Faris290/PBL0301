@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Detail Mobil - Car Management{% endblock %}
+
+{% block content %}
+<div class="card p-4">
+    <div class="card-header mb-4">
+        <h2 class="mb-0"><i class="fas fa-car"></i> Detail Mobil</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="mb-3">
+                <label class="form-label"><strong>ID Mobil</strong></label>
+                <input type="text" class="form-control" value="{{ car.id }}" disabled>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label"><strong>Brand</strong></label>
+                    <input type="text" class="form-control" value="{{ car.brand }}" disabled>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label"><strong>Model</strong></label>
+                    <input type="text" class="form-control" value="{{ car.model }}" disabled>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label"><strong>Tahun Produksi</strong></label>
+                    <input type="text" class="form-control" value="{{ car.year }}" disabled>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label"><strong>Warna</strong></label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" value="{{ car.color }}" disabled>
+                        <span class="input-group-text" style="background-color: {{ car.color }};
+                            color: {% if car.color in ['white', 'yellow', 'silver', 'beige'] %}black{% else %}white{% endif %};
+                            min-width: 60px;"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label"><strong>Harga (Rp)</strong></label>
+                    <input type="text" class="form-control" value="{{ "{:,.0f}".format(car.price) }}" disabled>
+                </div>
+            </div>
+
+            <div class="alert alert-light" role="alert">
+                <strong>Ringkasan:</strong>
+                <p class="mb-0">
+                    {{ car.brand }} {{ car.model }} Tahun {{ car.year }} 
+                    Warna {{ car.color }} dengan Harga Rp {{ "{:,.0f}".format(car.price) }}
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-tools"></i> Aksi</h5>
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('updatecar', car_id=car.id) }}" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Edit Data
+                        </a>
+                        <form method="POST" action="{{ url_for('deletecar', car_id=car.id) }}"
+                              onsubmit="return confirm('Yakin ingin menghapus mobil ini?');">
+                            <button type="submit" class="btn btn-danger w-100">
+                                <i class="fas fa-trash"></i> Hapus Data
+                            </button>
+                        </form>
+                        <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

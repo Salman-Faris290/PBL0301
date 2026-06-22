@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Cari Mobil - Car Management{% endblock %}
+
+{% block content %}
+<div class="card p-4 mb-4">
+    <div class="card-header mb-4">
+        <h2 class="mb-0"><i class="fas fa-search"></i> Cari Mobil</h2>
+    </div>
+
+    <form method="POST">
+        <div class="input-group input-group-lg mb-4">
+            <input type="text" class="form-control" name="query" placeholder="Cari berdasarkan Brand, Model, atau Warna..." 
+                   value="{{ search_query }}" required>
+            <button class="btn btn-primary" type="submit">
+                <i class="fas fa-search"></i> Cari
+            </button>
+        </div>
+        <small class="text-muted">
+            <i class="fas fa-info-circle"></i> 
+            Masukkan nama Brand (Toyota, Honda), Model (Avanza, Civic), atau Warna untuk mencari mobil.
+        </small>
+    </form>
+
+    <div class="alert alert-info mt-3" role="alert">
+        <i class="fas fa-lightbulb"></i> 
+        <strong>SEARCH FUNCTION:</strong> Form ini menunjukkan implementasi fungsi SEARCH (bagian dari CRUDS) 
+        yang merupakan salah satu requirement dari PBL0301.
+    </div>
+</div>
+
+<!-- Hasil Pencarian -->
+{% if cars.count() > 0 %}
+<div class="card p-4">
+    <div class="card-header mb-4">
+        <h5 class="mb-0">
+            <i class="fas fa-list-ul"></i> Hasil Pencarian: <strong>"{{ search_query }}"</strong>
+            <span class="badge bg-success">{{ cars.count() }} hasil</span>
+        </h5>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>No.</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Tahun</th>
+                    <th>Warna</th>
+                    <th>Harga (Rp)</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in cars %}
+                <tr>
+                    <td><strong>{{ loop.index }}</strong></td>
+                    <td>{{ car.brand }}</td>
+                    <td>{{ car.model }}</td>
+                    <td>{{ car.year }}</td>
+                    <td>
+                        <span class="badge" style="background-color: {{ car.color }};
+                            color: {% if car.color in ['Putih', 'Kuning', 'Silver'] %}black{% else %}white{% endif %};">
+                            {{ car.color }}
+                        </span>
+                    </td>
+                    <td>{{ "{:,.0f}".format(car.price) }}</td>
+                    <td>
+                        <a href="{{ url_for('readcar', car_id=car.id) }}" class="btn btn-sm btn-info">
+                            <i class="fas fa-eye"></i> Lihat
+                        </a>
+                        <a href="{{ url_for('updatecar', car_id=car.id) }}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% elif search_query %}
+<div class="alert alert-warning" role="alert">
+    <i class="fas fa-exclamation-triangle"></i> 
+    Tidak ada hasil pencarian untuk "<strong>{{ search_query }}</strong>". Coba dengan kata kunci lain.
+</div>
+{% endif %}
+{% endblock %}
